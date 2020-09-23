@@ -66,5 +66,36 @@ namespace LeetCode.Tree._968
             return -1;
 
         }
+
+        /// <summary>
+        /// 获取节点的状态
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>数组索引0表示：当前节点有摄像头的最优解；索引1表示不论当前节点是否有摄像头的最优解；索引2表示不论当前节点是否有被监控的最优解。</returns>
+        int[] GetCameraCOnverStatus(TreeNode node)
+        {
+            if (node == null)
+            {
+                int[] r = { int.MaxValue / 2, 0, 0 };
+                return r;
+            }
+            int[] left = GetCameraCOnverStatus(node.left);
+            int[] right = GetCameraCOnverStatus(node.right);
+            int a = left[2] + right[2] + 1;//两个子树单独被覆盖，然后当前节点再放置一个摄像头
+            //当前节点对应树的最优解在一下三种情况中取最优：
+            //当前节点有摄像头后的最优解；
+            //当前节点没有摄像头，左节点有摄像头，右节点最优；
+            //当前节点没有摄像头，右节点有摄像头，左节点最优。
+            int b = Math.Min(a, Math.Min(left[0] + right[1], left[1] + right[0]));
+            //无论当前节点是否被覆盖，只覆盖两个子节点的最优解在以下两种情况中取最优：
+            //1.当前节点有摄像头之后的最优解（两个子节点分开考虑之后，两子个节点都放置了摄像头，可以合并到当前节点。）
+            //      0
+            //    /   \
+            //   0     0
+            //2.分别覆盖左节点和右节点最优解之和
+            int c = Math.Min(a, left[1] + right[1]);
+            int[] result = { a, b, c };
+            return result;
+        }
     }
 }
