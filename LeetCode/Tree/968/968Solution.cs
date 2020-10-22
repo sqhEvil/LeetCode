@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Xml.XPath;
 
@@ -96,6 +99,190 @@ namespace LeetCode.Tree._968
             int c = Math.Min(a, left[1] + right[1]);
             int[] result = { a, b, c };
             return result;
+        }
+        int min = int.MaxValue;
+        int tem = -1;
+        public int GetMinimumDifference(TreeNode root)
+        {
+            Mid(root);
+            return min;
+        }
+        public void Mid(TreeNode node)
+        {
+
+            if (node.left != null)
+            {
+                Mid(node.left);
+            }
+
+            if (tem >= 0)
+            {
+                min = min < (node.val - tem) ? node.val - tem : min;
+            }
+            tem = node.val;
+            if (node.right != null)
+            {
+                Mid(node.right);
+            }
+
+        }
+
+
+
+
+        public class ListNode
+        {
+            public int val;
+            public ListNode next;
+            public ListNode(int val = 0, ListNode next = null)
+            {
+                this.val = val;
+                this.next = next;
+            }
+        }
+        public ListNode SwapPairs(ListNode head)
+        {
+            System.Collections.Concurrent.ConcurrentDictionary<int, int> cd;
+            if (head == null || head.next == null)
+            {
+                return head;
+            }
+            ListNode front = head;
+
+            head = head.next;
+            front.next = head.next;
+            head.next = front;
+            while (front.next != null)
+            {
+                if (front.next.next != null)
+                {
+                    var tem = front.next;
+
+                    front.next = front.next.next;
+                    tem.next = front.next.next;
+                    front.next.next = tem;
+
+                    front = tem;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var aa = head;
+            while (aa != null)
+            {
+                Console.WriteLine(aa.val);
+                aa = aa.next;
+            }
+            return head;
+        }
+
+        public IList<string> CommonChars(string[] A)
+        {
+            IList<string> result = new List<string>();
+            var resultChar = A[0].ToList();
+            int[] dc = new int[26];
+            for (int i = 0; i < resultChar.Count; i++)
+            {
+                dc[resultChar[i] - 'a']++;
+            }
+            for (int i = 1; i < A.Length; i++)
+            {
+                int[] tem = new int[26];
+                var l = A[i].ToList();
+                for (int j = 0; j < l.Count; j++)
+                {
+                    tem[l[j] - 'a']++;
+                }
+                for (int k = 0; k < 26; k++)
+                {
+                    dc[k] = Math.Min(dc[k], tem[k]);
+                }
+            }
+            for (int i = 0; i < 26; i++)
+            {
+                for (int j = 0; j < dc[i]; j++)
+                {
+                    result.Add(('a' + i).ToString());
+                }
+            }
+            return result;
+        }
+
+        public bool BackspaceCompare(string S, string T)
+        {
+            var si = GetIndex(S, S.Length - 1);
+            var ti = GetIndex(T, T.Length - 1);
+            while (si >= 0 || ti >= 0)
+            {
+                if (GetValue(S, si) != GetValue(T, ti))
+                {
+                    return false;
+                }
+                si = GetIndex(S, si - 1);
+                ti = GetIndex(T, ti - 1);
+            }
+            return true;
+        }
+        char GetValue(string ca, int index)
+        {
+            if (index < 0)
+            {
+                return '#';
+            }
+            return ca[index];
+        }
+        int GetIndex(string cs, int index)
+        {
+            if (index < 0) return -1;
+            int c = 0;
+            while (c > 0 || cs[index] == '#')
+            {
+                if (cs[index] == '#')
+                {
+                    c++;
+                }
+                else
+                {
+                    c--;
+                }
+                index--;
+                if (index < 0)
+                {
+                    return -1;
+                }
+            }
+            return index;
+        }
+
+        public void ReorderList(ListNode head)
+        {
+            Stack<ListNode> s = new Stack<ListNode>();
+            var tem = head;
+            while (tem != null)
+            {
+                s.Push(tem);
+                tem = tem.next;
+            }
+            tem = head;
+            while (tem != null)
+            {
+
+                if (tem == s.Peek())
+                {
+                    tem.next = null;
+                    break;
+                }
+                else if (tem.next == s.Peek())
+                {
+                    tem.next.next = null;
+                    break;
+                }
+                s.Peek().next = tem.next;
+                tem.next = s.Pop();
+                tem = tem.next.next;
+            }
         }
     }
 }
