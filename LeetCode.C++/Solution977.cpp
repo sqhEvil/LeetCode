@@ -74,6 +74,43 @@ public:
 		return i = name.size();
 	}
 
+	bool isPalindrome(ListNode* head)
+	{
+		ListNode* mid = GetMid(head);
+		ListNode* reMid = Revert(mid);
+		while (reMid != nullptr)
+		{
+			if (head->val != reMid->val)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	ListNode* GetMid(ListNode* head) {
+		ListNode* slow = head;
+		ListNode* fast = head;
+		while (fast != nullptr && fast->next != nullptr)
+		{
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+		return slow;
+	}
+	ListNode* Revert(ListNode* mid) {
+		if (mid == nullptr) return mid;
+		ListNode* result = mid;
+		ListNode* next = mid->next;
+		result->next = nullptr;
+		while (next != nullptr)
+		{
+			ListNode* tem = result;
+			result = next;
+			next = next->next;
+			result->next = tem;
+		}
+		return result;
+	}
 };
 
 struct ListNode {
