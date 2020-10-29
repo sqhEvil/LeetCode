@@ -1,5 +1,9 @@
 #include<vector>;
 #include <string>
+#include <unordered_map>
+#include <map>
+#include <set>
+#include <unordered_set>
 using namespace std;
 
 class Solution {
@@ -110,6 +114,20 @@ public:
 			result->next = tem;
 		}
 		return result;
+	}
+	bool uniqueOccurrences(vector<int>& arr)
+	{
+		map<int, int> map;
+		for (size_t i = 0; i < arr.size(); i++)
+		{
+			map[arr[i]]++;
+		}
+		unordered_set<int> set;
+		for (const auto& x : map)
+		{
+			set.insert(x.second);
+		}
+		return set.size() == map.size();
 	}
 };
 
