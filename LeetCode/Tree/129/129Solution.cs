@@ -82,5 +82,75 @@ namespace LeetCode.Tree._129
             return result;
         }
 
+
+        public int IslandPerimeter(int[][] grid)
+        {
+            int n = 0;
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (grid[i][j] == 1)
+                    {
+                        if (i == 0 || grid[i - 1][j] == 0)//上
+                        {
+                            n++;
+                        }
+                        if (i == grid.Length - 1 || grid[i + 1][j] == 0)//下
+                        {
+                            n++;
+                        }
+                        if (j == 0 || grid[i][j - 1] == 0)//左
+                        {
+                            n++;
+                        }
+                        if (j == grid[i].Length - 1 || grid[i][j + 1] == 0)//右
+                        {
+                            n++;
+                        }
+                    }
+                }
+            }
+            return n;
+        }
+        public int[] Intersection(int[] nums1, int[] nums2)
+        {
+            List<int> result = new List<int>();
+            HashSet<int> h = new HashSet<int>();
+            foreach (var item in nums1)
+            {
+                h.Add(item);
+            }
+            foreach (var item in nums2)
+            {
+                if (h.Contains(item))
+                {
+                    h.Remove(item);
+                    result.Add(item);
+                }
+            }
+            return result.ToArray();
+        }
+
+        public bool ValidMountainArray(int[] A)
+        {
+            if (A.Length < 3 || A[1] < A[0])
+            {
+                return false;
+            }
+            bool result = false;
+            for (int i = 2; i < A.Length; i++)
+            {
+                if (A[i] == A[i - 1] || (result && A[i] > A[i - 1]))
+                {
+                    return false;
+                }
+                else if ((!result) && A[i] < A[i - 1])
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }
