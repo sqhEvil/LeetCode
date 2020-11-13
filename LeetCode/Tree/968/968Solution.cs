@@ -284,5 +284,22 @@ namespace LeetCode.Tree._968
                 tem = tem.next.next;
             }
         }
+
+        public ListNode OddEvenList(ListNode head)
+        {
+            if (head == null) return head;
+            var result = head;
+            var le = head;
+            var re = head.next;
+            while (re?.next != null)
+            {
+                var tem = le.next;
+                le.next = re.next;
+                le = le.next;
+                le.next = tem;
+                re.next = re.next.next;
+            }
+            return result;
+        }
     }
 }
