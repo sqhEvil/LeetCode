@@ -1,4 +1,5 @@
 ﻿using LeetCode._1228;
+using LeetCode.SortAlgrothm;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +11,8 @@ namespace LeetCode
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            SortTest sort = new SortTest();
+            sort.Test();
             //_1228Solution _1228 = new _1228Solution();
             //_1228.RemoveCoveredIntervals(_1228.CreateData());
             _40._40Solution solution = new _40._40Solution();
@@ -126,7 +129,7 @@ namespace LeetCode
 
         public int SuperEggDrop(int K, int N)
         {
-            
+
             return 0;
         }
 

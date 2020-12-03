@@ -95,10 +95,10 @@ namespace LeetCode._763
             }
             return result;
         }
-        bool isPalindrome(ListNode* head)
-        {
-            return false;
-        }
+        //bool isPalindrome(ListNode* head)
+        //{
+        //    return false;
+        //}
 
     }
 }
