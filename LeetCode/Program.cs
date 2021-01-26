@@ -11,6 +11,8 @@ namespace LeetCode
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            var aa = "\\\\ \\ \\\\ \\";
+            var bb = aa.Replace("\\\\", "\\");
             SortTest sort = new SortTest();
             sort.Test();
             //_1228Solution _1228 = new _1228Solution();
