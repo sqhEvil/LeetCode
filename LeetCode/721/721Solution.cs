@@ -144,5 +144,100 @@ namespace LeetCode._721
                 return parents[index];
             }
         }
-    }
+    
+		/// <summary>
+        /// 类型 1：只能由 Alice 遍历。
+        /// 类型 2：只能由 Bob 遍历。
+        /// 类型 3：Alice 和 Bob 都可以遍历。
+        /// edges[i] = [typei, ui, vi] 
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="edges"></param>
+        /// <returns></returns>
+        public int MaxNumEdgesToRemove(int n, int[][] edges)
+        {
+            int[] pa = new int[n];
+            int[] pb = new int[n];
+            int setCounta = n;
+            int setCountb = n;
+            for (int i = 0; i < n; i++)
+            {
+                pa[i] = i;
+                pb[i] = i;
+            }
+            int Find(int[] p, int index)
+            {
+                if (p[index] != index)
+                {
+                    p[index] = Find(p, p[index]);
+                }
+                return p[index];
+            }
+            bool Union(int[] p, int x, int y, bool isA)
+            {
+                int px = Find(p, x), py = Find(p, y);
+                if (px != py)
+                {
+                    p[px] = py;
+                    if (isA)
+                    {
+                        setCounta--;
+                    }
+                    else
+                    {
+                        setCountb--;
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            int ans = 0;
+            for (int i = 0; i < edges.Length; i++)
+            {
+                switch (edges[i][0])
+                {
+                    case 3:
+                        if (!Union(pa, edges[i][1] - 1, edges[i][2] - 1, true))
+                        {
+                            ans++;
+                        }
+                        else
+                        {
+                            Union(pb, edges[i][1] - 1, edges[i][2] - 1, false);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            for (int i = 0; i < edges.Length; i++)
+            {
+                switch (edges[i][0])
+                {
+                    case 1:
+                        if (!Union(pa, edges[i][1] - 1, edges[i][2] - 1, true))
+                        {
+                            ans++;
+                        }
+                        break;
+                    case 2:
+                        if (!Union(pb, edges[i][1] - 1, edges[i][2] - 1, false))
+                        {
+                            ans++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (setCounta != 1 || setCountb != 1)
+            {
+                return -1;
+            }
+            return ans;
+        }
+	}
 }
