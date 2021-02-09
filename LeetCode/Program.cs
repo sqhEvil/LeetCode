@@ -1,5 +1,7 @@
 ﻿using LeetCode._1228;
+using LeetCode.niuke;
 using LeetCode.SortAlgrothm;
+using LeetCode.Tree;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -203,5 +205,143 @@ namespace LeetCode
             }
             return 0;
         }
+
+        public void DeleteNode(ListNode node)
+        {
+            var tem = node.next;
+            node.val = tem.val;
+            node.next = tem;
+        }
+        // if (tem.val < temValue)
+        //{
+        //    return false;
+        //}
+        //else
+        //{
+        //    temValue = tem.val;
+        //}
+
+        public bool IsValidBST(TreeNode root)
+        {
+            if (root == null)
+            {
+                return true;
+            }
+            int? temValue = null;
+            Stack<TreeNode> st = new Stack<TreeNode>();
+            st.Push(root);
+            while (st.Count > 0)
+            {
+                while (st.Peek().left != null)
+                {
+                    st.Push(st.Peek().left);
+                }
+                while (st.Count > 0)
+                {
+                    var tem = st.Pop();
+                    if (temValue != null && tem.val <= temValue)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        temValue = tem.val;
+                    }
+                    if (tem.right != null)
+                    {
+                        st.Push(tem.right);
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+
+        void f(TreeNode root)
+        {
+            Stack<TreeNode> st = new Stack<TreeNode>();
+            st.Push(root);
+
+            while (st.Count > 0)
+            {
+                var tem = st.Pop();
+                Console.WriteLine(tem.val);
+                if (tem.right != null)
+                {
+                    st.Push(tem.right);
+                }
+                if (tem.left != null)
+                {
+                    st.Push(tem.left);
+                }
+            }
+        }
+
+        void l(TreeNode root)
+        {
+            Stack<TreeNode> st = new Stack<TreeNode>();
+            st.Push(root);
+            while (st.Count > 0)
+            {
+                var tem = st.Peek();
+                if (tem.left == null && tem.right == null)
+                {
+                    Console.WriteLine(tem.val);
+                }
+                if (tem.right != null)
+                {
+                    st.Push(tem.right);
+                }
+                if (tem.left != null)
+                {
+                    st.Push(tem.left);
+                }
+            }
+        }
+        //a^b=0
+        public int CountTriplets(int[] arr)
+        {
+            int result = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int tem = arr[i];
+                for (int j = i + 1; j < arr.Length; j++)
+                {
+                    tem ^= arr[j];
+                    if (tem == 0)
+                    {
+                        result += (j - i);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        ///10-----0
+        ///11-----1
+        ///01-----2
+        ///110----3
+        ///111----4
+        ///
+
+
+        ///1----0
+        ///1----1
+        ///1----2
+        ///1----3
+        ///1----4
+        ///
+        ///0 1 1
+        ///0 1 3
+        ///0 2 3
+        ///0 3 3
+        ///1 2 2
+        ///1 2 4
+        ///1 3 4
+        ///1 4 4
+        ///2 3 3
+        ///3 4 4
+
     }
 }

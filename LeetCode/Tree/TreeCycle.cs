@@ -118,7 +118,7 @@ namespace LeetCode.Tree
             {
                 while (stack.Peek().left != null)//先找到最左端得接口
                 {
-                    stack.Push(stack.Peek().right);
+                    stack.Push(stack.Peek().left);
                 }
                 while (stack.Count > 0)
                 {
