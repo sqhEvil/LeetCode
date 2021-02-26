@@ -29,6 +29,70 @@ namespace LeetCode._992
         //1 <= A.length <= 20000
         //1 <= A[i] <= A.length
         //1 <= K <= A.length
+        public int SubarraysWithKDistinct3(int[] A, int K)
+        {
+            int validCount = 0;
+            IDictionary<int, int> stats = new Dictionary<int, int>();
+            int left = 0, right = 0;
+            while (right < A.Length)
+            {
+                int count = 0;
+                stats.TryGetValue(A[right], out count);
+                count++;
+                stats[A[right]] = count;
+
+                #region 收缩滑动窗口
+                while (stats.Count() > K)
+                {
+                    if (stats[A[left]] > 1)
+                    {
+                        stats[A[left]]--;
+                    }
+                    else
+                    {
+                        stats.Remove(A[left]);
+                    }
+                    left++;
+                }
+                #endregion
+
+                //判断以A[right]结尾的满足要求的子数组
+                int temp_left = left;
+                while (stats.Count() == K)
+                {
+                    validCount++;
+                    if (stats[A[temp_left]] > 1)
+                    {
+                        stats[A[temp_left]]--;
+                    }
+                    else
+                    {
+                        stats.Remove(A[temp_left]);
+                    }
+                    temp_left++;
+                }
+
+                while (temp_left > left)
+                {
+                    if (stats.ContainsKey(A[temp_left - 1]))
+                    {
+                        stats[A[temp_left - 1]]++;
+                    }
+                    else
+                    {
+
+                        stats[A[temp_left - 1]] = 1;
+                    }
+                    temp_left--;
+                }
+
+
+                right++;
+            }
+
+
+            return validCount;
+        }
         public int SubarraysWithKDistinct(int[] A, int K)
         {
             int CaculateMaxKCount(int k)
