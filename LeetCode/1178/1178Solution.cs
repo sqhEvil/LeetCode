@@ -52,7 +52,7 @@ namespace LeetCode._1178
                 }
 
                 int tem = mark;
-                while (tem >=0)
+                while (tem > 0)
                 {
                     int s = 1 << (puzzle[0] - 'a') | tem;
                     if (dc.ContainsKey(s))
@@ -60,6 +60,10 @@ namespace LeetCode._1178
                         temR += dc[s];
                     }
                     tem = (tem - 1) & mark;
+                }
+                if (dc.ContainsKey(1 << (puzzle[0] - 'a')))
+                {
+                    temR += dc[1 << (puzzle[0] - 'a')];
                 }
                 result.Add(temR);
             }
